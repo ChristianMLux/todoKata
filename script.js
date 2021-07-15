@@ -18,11 +18,18 @@ function addTodo() {
   todoList.appendChild(newTodo);
   // add todo to array
   todos.push(todoEntry);
+  // done btn
+  const doneCb = document.createElement("INPUT");
+  doneCb.setAttribute("type", "checkbox");
+  doneCb.setAttribute("class", "done-cb");
   // save to local storage
   saveTodoInLocal();
   // clear text input
   document.getElementById("addTodoTf").value = "";
 }
+
+/** DONE TODO */
+function setTodoDone() {}
 
 /** TODO BTN LISTENER */
 if (addTodoBtn) {
