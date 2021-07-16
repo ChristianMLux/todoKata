@@ -7,33 +7,60 @@
     <meta name="author" content="Christian M. Lux" />
     <meta name="description" content="not another todo app " />
     <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
     <title>ToDo-App</title>
   </head>
   <body>
     <header>
-      <h1 class="main-heading">ToDo App</h1>
+      <h1 class="main-heading">Todo App</h1>
     </header>
     <main>
-      <section class="add-todo-section">
-        <input
-          type="text"
-          class="add-todo-tf"
-          id="addTodoTf"
-          placeholder="get your shit done!"
-          value=""
-          ;
-          ;
-        /><button id="addTodoBtn">Add</button>
-      </section>
-      <section class="filter-section">
-        <input type="radio" name="filter" />
-        <input type="radio" name="filter" />
-        <input type="radio" name="filter" />
-        <button id="remove-todo-btn">Remove Done Todos</button>
-      </section>
-      <section class="todo-list-section">
-        <ul id="todoList"></ul>
-      </section>
+      <div class="content-wrapper">
+        <section class="add-todo-section">
+          <input
+            type="text"
+            class="add-todo-tf"
+            id="addTodoTf"
+            placeholder="get your shit done!"
+            value=""
+            ;
+            ;
+          /><button id="addTodoBtn" class="add-todo-btn">Add</button>
+        </section>
+        <section class="filter-section">
+          <h2 class="section-heading">Filter & Options</h2>
+          <div class="filter-wrapper">
+            <input type="radio" name="filter" class="filter-radio" /><label
+              for="filter"
+              class="filter-label"
+              >All</label
+            ><br />
+            <input type="radio" name="filter" class="filter-radio" /><label
+              for="filter"
+              class="filter-label"
+              >Open</label
+            >
+            <br />
+            <input type="radio" name="filter" class="filter-radio" /><label
+              for="filter"
+              class="filter-label"
+              >Done</label
+            >
+          </div>
+          <button id="removeTodoBtn" class="remove-todo-btn">
+            Remove Done Todos
+          </button>
+        </section>
+        <section class="todo-list-section">
+          <h2 class="section-heading">Your Todos</h2>
+          <ul id="todoList"></ul>
+        </section>
+      </div>
     </main>
     <script src="script.js"></script>
   </body>
