@@ -6,12 +6,13 @@ const storageKey = "todos";
 let todoList = document.querySelector("#todoList");
 let addTodoBtn = document.querySelector("#addTodoBtn");
 let currentTodo = undefined;
+let todoEntry = null;
+let index = 0;
 
 /** ADD TODO */
 function addTodo() {
   // get the todo out of the textfield
-  let todoEntry = document.getElementById("addTodoTf").value;
-
+  todoEntry = document.getElementById("addTodoTf").value;
   // list-entry
   const checkBox = document.createElement("INPUT");
   const checkBoxLabel = document.createElement("label");
@@ -19,9 +20,10 @@ function addTodo() {
 
   checkBox.type = "checkbox";
   checkBox.className = "todo-check-box";
-  checkBox.id = "todoCheckbox";
+  checkBox.id = "todoCheckbox" + index;
   checkBoxLabel.for = "todoCheckbox";
   checkBoxLabel.className = "todo-name";
+  newTodo.id = "todo" + index++;
 
   newTodo.innerText = todoEntry;
 
@@ -34,17 +36,42 @@ function addTodo() {
   // add todo to array
   todos.push(todoEntry);
 
-  // done btn
-  const doneCb = document.createElement("INPUT");
-  doneCb.setAttribute("type", "checkbox");
-  doneCb.setAttribute("class", "done-cb");
-
   // save to local storage
   //saveTodoInLocal();
+  checkBox.addEventListener("click", getCheckedState);
 
   // clear text input
   document.getElementById("addTodoTf").value = "";
 }
+
+function conEntryOutput() {
+  console.log("index " + index);
+  let i = index - 1;
+  console.log("i " + i);
+  let checkBox = document.getElementById("todoCheckbox" + i);
+  if (checkBox.checked === true) {
+    console.log(checkBox);
+    i++;
+    console.log("iafter " + i);
+  }
+}
+
+function getCheckedState() {
+  let i = index - 1;
+  let entryID = "todoCheckbox" + i;
+  todoEntry = document.getElementById("todo" + i);
+  let checkBox = document.getElementById(entryID);
+  console.log("todoID = " + todoEntry);
+  if (checkBox.checked === true) {
+    todoEntry.style.textDecoration = "line-through";
+    console.log("checked");
+    return true;
+  } else {
+    console.log("not checked");
+  }
+}
+
+function setCheckedState() {}
 
 /** DONE TODO */
 function setTodoDone() {}
