@@ -14,8 +14,24 @@ function addTodo() {
   // list-entry
   const newTodo = document.createElement("li");
   newTodo.innerText = todoEntry;
+  const checkBox = document.createElement("INPUT");
+  const checkBoxLabel = document.createElement("label");
+  const lenghtCheck = document.createTextNode(todoEntry);
+
+  checkBox.type = "checkbox";
+  checkBox.className = "todo-check-box";
+  checkBox.id = "todoCheckbox";
+  checkBoxLabel.for = "todoCheckbox";
+  checkBoxLabel.className = "todo-name";
+  // length check
+  //if (lenghtCheck.length < 5) {
+  //confirm("You have to enter at least 5 characters!");
+  //return;
+  //}
   // add to list
   todoList.appendChild(newTodo);
+  todoList.appendChild(checkBoxLabel);
+  todoList.appendChild(checkBox);
   // add todo to array
   todos.push(todoEntry);
   // done btn
@@ -23,7 +39,7 @@ function addTodo() {
   doneCb.setAttribute("type", "checkbox");
   doneCb.setAttribute("class", "done-cb");
   // save to local storage
-  saveTodoInLocal();
+  //saveTodoInLocal();
   // clear text input
   document.getElementById("addTodoTf").value = "";
 }
