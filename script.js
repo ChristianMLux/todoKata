@@ -38,7 +38,7 @@ function addTodo() {
 
   // save to local storage
   //saveTodoInLocal();
-  checkBox.addEventListener("click", getCheckedState);
+  checkBox.addEventListener("click", setCheckedState);
 
   // clear text input
   document.getElementById("addTodoTf").value = "";
@@ -63,7 +63,7 @@ function getCheckedState() {
   let checkBox = document.getElementById(entryID);
   console.log("todoID = " + todoEntry);
   if (checkBox.checked === true) {
-    todoEntry.style.textDecoration = "line-through";
+    //todoEntry.style.textDecoration = "line-through";
     console.log("checked");
     return true;
   } else {
@@ -71,10 +71,13 @@ function getCheckedState() {
   }
 }
 
-function setCheckedState() {}
+function setCheckedState() {
+  if (getCheckedState(true)) {
+    todoEntry.style.textDecoration = "line-through";
+  }
+}
 
-/** DONE TODO */
-function setTodoDone() {}
+function getTodoID() {}
 
 /** TODO BTN LISTENER */
 if (addTodoBtn) {
