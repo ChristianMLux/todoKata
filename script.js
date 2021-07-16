@@ -2,89 +2,12 @@
  * GLOBAL VARIABLES
  */
 const todos = [];
-const storageKey = "todos";
-let todoList = document.querySelector("#todoList");
-let addTodoBtn = document.querySelector("#addTodoBtn");
-let todoEntry = null;
+//const storageKey = "todos";
+const todoList = document.querySelector("#todoList");
+const newTodoEntry = document.getElementById("addTodoTf");
+const addTodoBtn = document.querySelector("#addTodoBtn");
 let index = 0;
-let idGlobal = 0;
-
-/** SET / GET ID  */
-function setID(entry, name, idLocal) {
-  entry.id = name + idLocal;
-}
-function getID(entry) {
-  let idLocal = entry.id;
-  return (idGlobal = idLocal);
-}
-
-/** ADD TODO */
-function addTodo() {
-  // get the todo out of the textfield
-  todoEntry = document.getElementById("addTodoTf").value;
-  // list-entry
-  const checkBox = document.createElement("INPUT");
-  const checkBoxLabel = document.createElement("label");
-  const newTodo = document.createElement("li");
-
-  checkBox.type = "checkbox";
-  checkBox.className = "todo-check-box";
-  setID(checkBox, "todoCheckbox", index);
-  checkBoxLabel.for = "todoCheckbox";
-  checkBoxLabel.className = "todo-name";
-  setID(newTodo, "todo", index++);
-
-  newTodo.innerText = todoEntry;
-
-  // add to list
-  newTodo.appendChild(checkBox);
-  newTodo.appendChild(checkBoxLabel);
-
-  todoList.appendChild(newTodo);
-
-  // add todo to array
-  todos.push(todoEntry);
-
-  // save to local storage
-  //saveTodoInLocal();
-  checkBox.addEventListener("click", setCheckedState);
-
-  // clear text input
-  document.getElementById("addTodoTf").value = "";
-}
-
-function conEntryOutput() {
-  console.log("index " + index);
-  let i = index - 1;
-  console.log("i " + i);
-  let checkBox = document.getElementById("todoCheckbox" + i);
-  if (checkBox.checked === true) {
-    console.log(checkBox);
-    i++;
-    console.log("iafter " + i);
-  }
-}
-
-function getCheckedState() {
-  let i = index - 1;
-  let entryID = "todoCheckbox" + i;
-  todoEntry = document.getElementById("todo" + i);
-  let checkBox = document.getElementById(entryID);
-  console.log("todoID = " + todoEntry);
-  if (checkBox.checked === true) {
-    //todoEntry.style.textDecoration = "line-through";
-    console.log("checked");
-    return true;
-  } else {
-    console.log("not checked");
-  }
-}
-
-function setCheckedState() {
-  if (getCheckedState(true)) {
-    todoEntry.style.textDecoration = "line-through";
-  }
-}
+let todoEntry = null;
 
 /** TODO BTN LISTENER */
 if (addTodoBtn) {
@@ -92,6 +15,52 @@ if (addTodoBtn) {
 } else {
   console.log("Sorry, can't find addTodoBtn");
 }
+/** TODO ADD FUNCTION */
+function addTodo() {
+  //get textinput value
+  const newTodoValue = newTodoEntry.value;
+  const todoID = setID("todo", index++);
+  //array
+  const newTodo = {
+    todoID: todoID,
+    description: newTodoValue,
+    done: false,
+  };
+  todos.push(newTodo);
+  //list
+  const newTodoLi = document.createElement("li");
+  newTodoLi.todoObj = newTodo;
+
+  const checkBox = document.createElement("INPUT");
+  checkBox.type = "checkbox";
+  checkBox.className = "todo-checkbox";
+  checkBox.id = todoID;
+  newTodoLi.appendChild(checkBox);
+
+  const label = document.createElement("label");
+  const labelText = document.createTextNode(newTodoValue);
+  label.append(labelText);
+  label.setAttribute("class", "todoLabel");
+  label.setAttribute("for", todoID);
+  newTodoLi.appendChild(label);
+
+  todoList.appendChild(newTodoLi);
+
+  //input clear
+  newTodoEntry.value = "";
+}
+
+/** SET / GET ID  */
+function setID(name, idLocal) {
+  return name + idLocal;
+}
+function getID() {}
+
+todoList.addEventListener("change", function (e) {
+  const newDoneState = e.target.checked;
+  const todoObj = e.target.parentElement.todoObj;
+  todoObj.done = newDoneState;
+});
 
 /** SAVE TODO in local storage 
 function saveTodoInLocal() {
