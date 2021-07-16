@@ -5,9 +5,18 @@ const todos = [];
 const storageKey = "todos";
 let todoList = document.querySelector("#todoList");
 let addTodoBtn = document.querySelector("#addTodoBtn");
-let currentTodo = undefined;
 let todoEntry = null;
 let index = 0;
+let idGlobal = 0;
+
+/** SET / GET ID  */
+function setID(entry, name, idLocal) {
+  entry.id = name + idLocal;
+}
+function getID(entry) {
+  let idLocal = entry.id;
+  return (idGlobal = idLocal);
+}
 
 /** ADD TODO */
 function addTodo() {
@@ -20,10 +29,10 @@ function addTodo() {
 
   checkBox.type = "checkbox";
   checkBox.className = "todo-check-box";
-  checkBox.id = "todoCheckbox" + index;
+  setID(checkBox, "todoCheckbox", index);
   checkBoxLabel.for = "todoCheckbox";
   checkBoxLabel.className = "todo-name";
-  newTodo.id = "todo" + index++;
+  setID(newTodo, "todo", index++);
 
   newTodo.innerText = todoEntry;
 
@@ -76,8 +85,6 @@ function setCheckedState() {
     todoEntry.style.textDecoration = "line-through";
   }
 }
-
-function getTodoID() {}
 
 /** TODO BTN LISTENER */
 if (addTodoBtn) {
