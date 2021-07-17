@@ -35,22 +35,26 @@
         <section class="filter-section">
           <h2 class="section-heading">Filter & Options</h2>
           <div class="filter-wrapper">
-            <input type="radio" name="filter" class="filter-radio" /><label
-              for="filter"
-              class="filter-label"
-              >All</label
-            ><br />
-            <input type="radio" name="filter" class="filter-radio" /><label
-              for="filter"
-              class="filter-label"
-              >Open</label
-            >
-            <br />
-            <input type="radio" name="filter" class="filter-radio" /><label
-              for="filter"
-              class="filter-label"
-              >Done</label
-            >
+            <label class="radio-wrapper"
+              >All
+              <input
+                type="radio"
+                checked="checked"
+                name="radio"
+                id="radioAll"
+              />
+              <span class="checkmark"></span>
+            </label>
+            <label class="radio-wrapper"
+              >Open
+              <input type="radio" name="radio" id="radioOpen" />
+              <span class="checkmark"></span>
+            </label>
+            <label class="radio-wrapper"
+              >Done
+              <input type="radio" name="radio" id="radioDone" />
+              <span class="checkmark"></span>
+            </label>
           </div>
           <button id="removeTodoBtn" class="remove-todo-btn">
             Remove Done Todos
