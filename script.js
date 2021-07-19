@@ -18,33 +18,41 @@ if (addTodoBtn) {
 /** TODO ADD FUNCTION */
 function addTodo() {
   //get textinput value
-  const newTodoValue = newTodoEntry.value;
-  const todoID = setID("todo", index++);
-  //array
-  const newTodo = {
-    todoID: todoID,
-    description: newTodoValue,
-    done: false,
-  };
-  todos.push(newTodo);
-  //list
-  const newTodoLi = document.createElement("li");
-  newTodoLi.todoObj = newTodo;
+  //const newTodoValue = newTodoEntry.value;
+  let newTodoValue = "";
+  let todoID = "";
+  if (newTodoEntry.value.length >= 5) {
+    newTodoValue = newTodoEntry.value;
+    todoID = setID("todo", index++);
 
-  const checkBox = document.createElement("INPUT");
-  checkBox.type = "checkbox";
-  checkBox.className = "todo-checkbox";
-  checkBox.id = todoID;
-  newTodoLi.appendChild(checkBox);
+    //array
+    const newTodo = {
+      todoID: todoID,
+      description: newTodoValue,
+      done: false,
+    };
+    todos.push(newTodo);
+    //list
+    const newTodoLi = document.createElement("li");
+    newTodoLi.todoObj = newTodo;
 
-  const label = document.createElement("label");
-  const labelText = document.createTextNode(newTodoValue);
-  label.append(labelText);
-  label.setAttribute("class", "todoLabel");
-  label.setAttribute("for", todoID);
-  newTodoLi.appendChild(label);
+    const checkBox = document.createElement("INPUT");
+    checkBox.type = "checkbox";
+    checkBox.className = "todo-checkbox";
+    checkBox.id = todoID;
+    newTodoLi.appendChild(checkBox);
 
-  todoList.appendChild(newTodoLi);
+    const label = document.createElement("label");
+    const labelText = document.createTextNode(newTodoValue);
+    label.append(labelText);
+    label.setAttribute("class", "todoLabel");
+    label.setAttribute("for", todoID);
+    newTodoLi.appendChild(label);
+
+    todoList.appendChild(newTodoLi);
+  } else {
+    console.log("sorry, please enter at least 5 characters");
+  }
 
   //input clear
   newTodoEntry.value = "";
