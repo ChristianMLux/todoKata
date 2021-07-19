@@ -56,6 +56,7 @@ function addTodo() {
 function setID(name, idLocal) {
   return name + idLocal;
 }
+function getID() {}
 
 function renderList(newTodoValue, todoID, newTodo) {
   // li element
@@ -121,7 +122,10 @@ filterOpen.addEventListener("click", function () {
 const deleteAllBtn = document.getElementById("removeTodoBtn");
 deleteAllBtn.addEventListener("click", function () {
   for (let i = 0; i < todoList.children.length; i++) {
-    todoList.remove();
+    if (todos[i].done === true) {
+      todoList.children[i].remove();
+      todos.splice(i, 1);
+    }
   }
 });
 
