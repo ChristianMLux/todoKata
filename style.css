@@ -127,9 +127,13 @@ li > label {
 .remove-todo-btn:focus {
   outline: 1px solid var(--shadow-y);
 }
-
+input[type="checkbox"] {
+  transition: 0.1s ease-in-out;
+}
 input[type="checkbox"]:checked + label {
   text-decoration: line-through;
+  font-size: 0.9rem;
+  transition: 0.1s ease-in-out;
 }
 
 /*custom radio*/
