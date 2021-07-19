@@ -9,12 +9,22 @@ const addTodoBtn = document.querySelector("#addTodoBtn");
 let index = 0;
 let todoEntry = null;
 
+/** TODO CLASS CONSTRUCTOR */
+class Todo {
+  constructor(todoID, descriptionParameter) {
+    this.todoID = todoID;
+    this.description = descriptionParameter;
+    this.done = false;
+  }
+}
+
 /** TODO BTN LISTENER */
 if (addTodoBtn) {
   addTodoBtn.addEventListener("click", addTodo);
 } else {
   console.log("Sorry, can't find addTodoBtn");
 }
+/** TEXTFIELD ENTER BTN LISTENER */
 newTodoEntry.addEventListener("keyup", function (event) {
   if (event.keyCode === 13) {
     event.preventDefault();
@@ -22,46 +32,23 @@ newTodoEntry.addEventListener("keyup", function (event) {
   }
 });
 newTodoEntry;
+
 /** TODO ADD FUNCTION */
 function addTodo() {
-  //get textinput value
-  //const newTodoValue = newTodoEntry.value;
   let newTodoValue = "";
   let todoID = "";
+
   if (newTodoEntry.value.length >= 5) {
     newTodoValue = newTodoEntry.value;
     todoID = setID("todo", index++);
+    let newTodo = new Todo(todoID, newTodoValue);
 
-    //array
-    const newTodo = {
-      todoID: todoID,
-      description: newTodoValue,
-      done: false,
-    };
     todos.push(newTodo);
-    //list
-    const newTodoLi = document.createElement("li");
-    newTodoLi.todoObj = newTodo;
 
-    const checkBox = document.createElement("INPUT");
-    checkBox.type = "checkbox";
-    checkBox.className = "todo-checkbox";
-    checkBox.id = todoID;
-    newTodoLi.appendChild(checkBox);
-
-    const label = document.createElement("label");
-    const labelText = document.createTextNode(newTodoValue);
-    label.append(labelText);
-    label.setAttribute("class", "todoLabel");
-    label.setAttribute("for", todoID);
-    newTodoLi.appendChild(label);
-
-    todoList.appendChild(newTodoLi);
+    renderList(newTodoValue, todoID, newTodo);
   } else {
     console.log("sorry, please enter at least 5 characters");
   }
-
-  //input clear
   newTodoEntry.value = "";
 }
 
@@ -69,15 +56,38 @@ function addTodo() {
 function setID(name, idLocal) {
   return name + idLocal;
 }
-function getID() {}
 
+function renderList(newTodoValue, todoID, newTodo) {
+  // li element
+  const newTodoLi = document.createElement("li");
+  newTodoLi.todoObj = newTodo;
+  // checkbox element
+  const checkBox = document.createElement("INPUT");
+  checkBox.type = "checkbox";
+  checkBox.className = "todo-checkbox";
+  checkBox.id = todoID;
+  newTodoLi.appendChild(checkBox);
+  // label for checkbox
+  const label = document.createElement("label");
+  const labelText = document.createTextNode(newTodoValue);
+  label.append(labelText);
+  label.setAttribute("class", "todoLabel");
+  label.setAttribute("for", todoID);
+  newTodoLi.appendChild(label);
+  // add to the list
+  todoList.appendChild(newTodoLi);
+}
+
+/** CROSS DONE TODOS */
 todoList.addEventListener("change", function (e) {
   const newDoneState = e.target.checked;
   const todoObj = e.target.parentElement.todoObj;
   todoObj.done = newDoneState;
 });
 
-/** FILTER */
+/**
+ * FILTER
+ * */
 const filterDone = document.querySelector("#radioDone");
 filterDone.addEventListener("click", function () {
   for (let i = 0; i < todoList.children.length; i++) {
@@ -132,12 +142,6 @@ function readTodoInLocal() {
   }
 }
 
-
-filterDone.addEventListener("click", function () {
-  for (let i = 0; i < todoList.children.length; i++) {
-    console.log(todoList.children[i]);
-  }
-});
 /** INITIAL TODO LOADING
 readTodoInLocal();
  */
