@@ -15,6 +15,13 @@ if (addTodoBtn) {
 } else {
   console.log("Sorry, can't find addTodoBtn");
 }
+newTodoEntry.addEventListener("keyup", function (event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    addTodoBtn.click();
+  }
+});
+newTodoEntry;
 /** TODO ADD FUNCTION */
 function addTodo() {
   //get textinput value
