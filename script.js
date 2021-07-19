@@ -2,7 +2,7 @@
  * GLOBAL VARIABLES
  */
 const todos = [];
-//const storageKey = "todos";
+const storageKey = "todos";
 const todoList = document.querySelector("#todoList");
 const newTodoEntry = document.getElementById("addTodoTf");
 const addTodoBtn = document.querySelector("#addTodoBtn");
@@ -129,12 +129,12 @@ deleteAllBtn.addEventListener("click", function () {
   }
 });
 
-/** SAVE TODO in local storage 
+// SAVE TODO in local storage
 function saveTodoInLocal() {
   const jsonTodo = JSON.stringify(todos);
   localStorage.setItem(storageKey, jsonTodo);
 }
-/** READ TODO LIST from local storage 
+// READ TODO LIST from local storage
 function readTodoInLocal() {
   const storageTodos = localStorage.getItem(storageKey);
   if (storageTodos !== null) {
@@ -146,6 +146,5 @@ function readTodoInLocal() {
   }
 }
 
-/** INITIAL TODO LOADING
+// INITIAL TODO LOADING
 readTodoInLocal();
- */
