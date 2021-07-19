@@ -62,6 +62,36 @@ todoList.addEventListener("change", function (e) {
   todoObj.done = newDoneState;
 });
 
+/** FILTER */
+const filterDone = document.querySelector("#radioDone");
+filterDone.addEventListener("click", function () {
+  for (let i = 0; i < todoList.children.length; i++) {
+    const todoObj = todoList.children[i].todoObj;
+    if (todoObj.done === false) {
+      todoList.children[i].hidden = true;
+    } else {
+      todoList.children[i].hidden = false;
+    }
+  }
+});
+const filterAll = document.querySelector("#radioAll");
+filterAll.addEventListener("click", function () {
+  for (let i = 0; i < todoList.children.length; i++) {
+    todoList.children[i].hidden = false;
+  }
+});
+const filterOpen = document.querySelector("#radioOpen");
+filterOpen.addEventListener("click", function () {
+  for (let i = 0; i < todoList.children.length; i++) {
+    const todoObj = todoList.children[i].todoObj;
+    if (todoObj.done === true) {
+      todoList.children[i].hidden = true;
+    } else {
+      todoList.children[i].hidden = false;
+    }
+  }
+});
+
 /** SAVE TODO in local storage 
 function saveTodoInLocal() {
   const jsonTodo = JSON.stringify(todos);
@@ -78,6 +108,13 @@ function readTodoInLocal() {
     });
   }
 }
+
+
+filterDone.addEventListener("click", function () {
+  for (let i = 0; i < todoList.children.length; i++) {
+    console.log(todoList.children[i]);
+  }
+});
 /** INITIAL TODO LOADING
 readTodoInLocal();
  */
