@@ -92,6 +92,14 @@ filterOpen.addEventListener("click", function () {
   }
 });
 
+/** DELETE ALL BTN */
+const deleteAllBtn = document.getElementById("removeTodoBtn");
+deleteAllBtn.addEventListener("click", function () {
+  for (let i = 0; i < todoList.children.length; i++) {
+    todoList.remove();
+  }
+});
+
 /** SAVE TODO in local storage 
 function saveTodoInLocal() {
   const jsonTodo = JSON.stringify(todos);
