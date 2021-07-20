@@ -1,7 +1,7 @@
 /**
  * GLOBAL VARIABLES
  */
-const todos = [];
+let todos = [];
 const storageKey = "todos";
 const todoList = document.querySelector("#todoList");
 const newTodoEntry = document.getElementById("addTodoTf");
@@ -129,7 +129,22 @@ deleteAllBtn.addEventListener("click", function () {
   }
 });
 
-// SAVE TODO in local storage
+loadAllTodos();
+
+/** TODO API */
+function loadAllTodos() {
+  fetch("http://localhost:4730/todos")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      data.forEach((item) => todos.push(item));
+      data.forEach((item) => renderList(JSON.stringify(item.description)));
+      console.log(todos);
+    });
+}
+
+/**  SAVE TODO in local storage
 function saveTodoInLocal() {
   const jsonTodo = JSON.stringify(todos);
   localStorage.setItem(storageKey, jsonTodo);
@@ -147,4 +162,4 @@ function readTodoInLocal() {
 }
 
 // INITIAL TODO LOADING
-readTodoInLocal();
+readTodoInLocal();*/
