@@ -2,17 +2,21 @@
  * GLOBAL VARIABLES
  */
 let todos = [];
+let apiList = [];
 const storageKey = "todos";
 const todoList = document.querySelector("#todoList");
 const newTodoEntry = document.getElementById("addTodoTf");
 const addTodoBtn = document.querySelector("#addTodoBtn");
-let index = 0;
+let index = 1;
 let todoEntry = null;
+//clearApiList();
+initApi();
+loadAllTodos();
 
 /** TODO CLASS CONSTRUCTOR */
 class Todo {
-  constructor(todoID, descriptionParameter) {
-    this.todoID = todoID;
+  constructor(id, descriptionParameter) {
+    this.id = id;
     this.description = descriptionParameter;
     this.done = false;
   }
@@ -36,16 +40,19 @@ newTodoEntry;
 /** TODO ADD FUNCTION */
 function addTodo() {
   let newTodoValue = "";
-  let todoID = "";
+  let id = "";
 
   if (newTodoEntry.value.length >= 5) {
     newTodoValue = newTodoEntry.value;
-    todoID = setID("todo", index++);
-    let newTodo = new Todo(todoID, newTodoValue);
+    id = setID(index++);
+    console.log(id);
+    let newTodo = new Todo(id, newTodoValue);
 
     todos.push(newTodo);
+    apiList.push(newTodo);
+    addToApi(newTodo);
 
-    renderList(newTodoValue, todoID, newTodo);
+    renderList(newTodoValue, id, newTodo);
   } else {
     console.log("sorry, please enter at least 5 characters");
   }
@@ -53,10 +60,9 @@ function addTodo() {
 }
 
 /** SET / GET ID  */
-function setID(name, idLocal) {
-  return name + idLocal;
+function setID(idLocal) {
+  return idLocal;
 }
-function getID() {}
 
 function renderList(newTodoValue, todoID, newTodo) {
   // li element
@@ -83,6 +89,8 @@ function renderList(newTodoValue, todoID, newTodo) {
 todoList.addEventListener("change", function (e) {
   const newDoneState = e.target.checked;
   const todoObj = e.target.parentElement.todoObj;
+  putDone(todoObj, newDoneState, todoObj.id);
+  console.log(todoObj);
   todoObj.done = newDoneState;
 });
 
@@ -123,15 +131,35 @@ const deleteAllBtn = document.getElementById("removeTodoBtn");
 deleteAllBtn.addEventListener("click", function () {
   for (let i = 0; i < todoList.children.length; i++) {
     if (todos[i].done === true) {
+      deleteDoneApi(getDoneID(todos[i]));
       todoList.children[i].remove();
       todos.splice(i, 1);
     }
   }
 });
 
-loadAllTodos();
+//loadAllTodos();
 
 /** TODO API */
+function initApi() {
+  fetch("http://localhost:4730/todos")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      data.forEach((item) => apiList.push(item));
+    });
+}
+function clearApiList() {
+  fetch("http://localhost:4730/todos")
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      data.forEach((item) => apiList.splice(item, 1));
+      data.forEach((item) => todos.splice(item, 1));
+    });
+}
 function loadAllTodos() {
   fetch("http://localhost:4730/todos")
     .then(function (response) {
@@ -140,8 +168,71 @@ function loadAllTodos() {
     .then(function (data) {
       data.forEach((item) => todos.push(item));
       data.forEach((item) => renderList(JSON.stringify(item.description)));
-      console.log(todos);
+      console.log("todos array " + JSON.stringify(todos));
+      console.log("apiList array " + JSON.stringify(apiList));
     });
+}
+function addToApi(todo) {
+  let header = new Headers();
+  header.append("Content-Type", "application/json");
+  let body = JSON.stringify(todo);
+  let request = {
+    method: "POST",
+    headers: header,
+    body: body,
+    redirect: "follow",
+  };
+  fetch("http://localhost:4730/todos", request)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log("error", error));
+}
+
+function deleteDoneApi(id) {
+  var raw = "";
+  var requestOptions = {
+    method: "DELETE",
+    body: raw,
+    redirect: "follow",
+  };
+  fetch("http://localhost:4730/todos/" + id, requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log("error", error));
+}
+
+function getDoneID(todo) {
+  let id = 0;
+  if (todo.done === true) {
+    console.log(todo + " is done");
+    id = todo.id;
+    console.log(id);
+    return id;
+  } else {
+    console.log("not done");
+  }
+}
+function putDone(todo, boolean, id) {
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  var raw = JSON.stringify({
+    id: todo.id,
+    description: todo.description,
+    done: boolean,
+  });
+
+  var requestOptions = {
+    method: "PUT",
+    headers: myHeaders,
+    body: raw,
+    redirect: "follow",
+  };
+
+  fetch("http://localhost:4730/todos/" + id, requestOptions)
+    .then((response) => response.text())
+    .then((result) => console.log(result))
+    .catch((error) => console.log("error", error));
 }
 
 /**  SAVE TODO in local storage
