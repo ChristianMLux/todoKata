@@ -9,7 +9,7 @@ const newTodoEntry = document.getElementById("addTodoTf");
 const addTodoBtn = document.querySelector("#addTodoBtn");
 let index = 1;
 let todoEntry = null;
-//clearApiList();
+
 initApi();
 loadAllTodos();
 
@@ -129,37 +129,28 @@ filterOpen.addEventListener("click", function () {
 /** DELETE ALL BTN */
 const deleteAllBtn = document.getElementById("removeTodoBtn");
 deleteAllBtn.addEventListener("click", function () {
-  for (let i = 0; i < todoList.children.length; i++) {
+  for (let i = apiList.length - 1; i >= 0; i--) {
     if (todos[i].done === true) {
       deleteDoneApi(getDoneID(todos[i]));
       todoList.children[i].remove();
       todos.splice(i, 1);
+      apiList.splice(i, 1);
     }
   }
 });
 
-//loadAllTodos();
-
 /** TODO API */
+// INIT API
 function initApi() {
   fetch("http://localhost:4730/todos")
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      data.forEach((item) => apiList.push(item));
+      data.forEach((item) => apiList.push(new Todo(item.id, item.description)));
     });
 }
-function clearApiList() {
-  fetch("http://localhost:4730/todos")
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (data) {
-      data.forEach((item) => apiList.splice(item, 1));
-      data.forEach((item) => todos.splice(item, 1));
-    });
-}
+// LOAD TODOS FROM DB, RENDER LIST
 function loadAllTodos() {
   fetch("http://localhost:4730/todos")
     .then(function (response) {
@@ -167,11 +158,18 @@ function loadAllTodos() {
     })
     .then(function (data) {
       data.forEach((item) => todos.push(item));
-      data.forEach((item) => renderList(JSON.stringify(item.description)));
+      data.forEach((item) =>
+        renderList(
+          JSON.stringify(item.description),
+          JSON.stringify(item.id),
+          item
+        )
+      );
       console.log("todos array " + JSON.stringify(todos));
       console.log("apiList array " + JSON.stringify(apiList));
     });
 }
+// ADD TODO TO DB
 function addToApi(todo) {
   let header = new Headers();
   header.append("Content-Type", "application/json");
@@ -187,7 +185,7 @@ function addToApi(todo) {
     .then((result) => console.log(result))
     .catch((error) => console.log("error", error));
 }
-
+// DELETE TODOS WITH id
 function deleteDoneApi(id) {
   var raw = "";
   var requestOptions = {
@@ -200,7 +198,7 @@ function deleteDoneApi(id) {
     .then((result) => console.log(result))
     .catch((error) => console.log("error", error));
 }
-
+// READ DONE STATE
 function getDoneID(todo) {
   let id = 0;
   if (todo.done === true) {
@@ -212,6 +210,7 @@ function getDoneID(todo) {
     console.log("not done");
   }
 }
+// SET DONE STATE
 function putDone(todo, boolean, id) {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -221,14 +220,12 @@ function putDone(todo, boolean, id) {
     description: todo.description,
     done: boolean,
   });
-
   var requestOptions = {
     method: "PUT",
     headers: myHeaders,
     body: raw,
     redirect: "follow",
   };
-
   fetch("http://localhost:4730/todos/" + id, requestOptions)
     .then((response) => response.text())
     .then((result) => console.log(result))
