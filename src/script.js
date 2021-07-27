@@ -67,12 +67,14 @@ function setID(idLocal) {
 function renderList(newTodoValue, todoID, newTodo) {
   // li element
   const newTodoLi = document.createElement("li");
+  newTodoLi.setAttribute("data-cy", "todoLi");
   newTodoLi.todoObj = newTodo;
   // checkbox element
   const checkBox = document.createElement("INPUT");
   checkBox.type = "checkbox";
   checkBox.className = "todo-checkbox";
   checkBox.id = todoID;
+  checkBox.setAttribute("data-cy", "todoCheckbox");
   newTodoLi.appendChild(checkBox);
   // label for checkbox
   const label = document.createElement("label");
@@ -80,6 +82,7 @@ function renderList(newTodoValue, todoID, newTodo) {
   label.append(labelText);
   label.setAttribute("class", "todoLabel");
   label.setAttribute("for", todoID);
+  label.setAttribute("data-cy", "todoLabel");
   newTodoLi.appendChild(label);
   // add to the list
   todoList.appendChild(newTodoLi);

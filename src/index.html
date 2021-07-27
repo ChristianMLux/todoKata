@@ -26,38 +26,50 @@
             type="text"
             class="add-todo-tf"
             id="addTodoTf"
+            data-cy="addTodoTf"
             placeholder="get your shit done!"
             value=""
             ;
             ;
-          /><button id="addTodoBtn" class="add-todo-btn">Add</button>
+          /><button class="add-todo-btn" id="addTodoBtn" data-cy="addTodoBtn">
+            Add
+          </button>
         </section>
         <section class="filter-section">
           <h2 class="section-heading">Filter & Options</h2>
           <div class="filter-wrapper">
-            <label class="radio-wrapper" id="radioAll"
+            <label class="radio-wrapper" id="radioAll" data-cy="labelAll"
               >All
-              <input type="radio" checked="checked" name="radio" />
+              <input
+                type="radio"
+                checked="checked"
+                name="radio"
+                data-cy="radioAll"
+              />
               <span class="checkmark"></span>
             </label>
-            <label class="radio-wrapper" id="radioOpen"
+            <label class="radio-wrapper" id="radioOpen" data-cy="labelOpen"
               >Open
-              <input type="radio" name="radio" />
+              <input type="radio" name="radio" data-cy="radioOpen" />
               <span class="checkmark"></span>
             </label>
-            <label class="radio-wrapper" id="radioDone"
+            <label class="radio-wrapper" id="radioDone" data-cy="labelDone"
               >Done
-              <input type="radio" name="radio" />
+              <input type="radio" name="radio" data-cy="radioDone" />
               <span class="checkmark"></span>
             </label>
           </div>
-          <button id="removeTodoBtn" class="remove-todo-btn">
+          <button
+            id="removeTodoBtn"
+            class="remove-todo-btn"
+            data-cy="removeTodoBtn"
+          >
             Remove Done Todos
           </button>
         </section>
         <section class="todo-list-section">
           <h2 class="section-heading">Your Todos</h2>
-          <ul id="todoList"></ul>
+          <ul id="todoList" data-cy="todoList"></ul>
         </section>
       </div>
     </main>
