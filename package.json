@@ -1,0 +1,28 @@
+{
+  "name": "todoKata",
+  "version": "1.0.0",
+  "description": "> kata",
+  "main": "index.js",
+  "dependencies": {
+    "serve": "^12.0.0"
+  },
+  "devDependencies": {
+    "cypress": "^8.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "serve ./src",
+    "e2e": "cypress open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChristianMLux/todoKata.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChristianMLux/todoKata/issues"
+  },
+  "homepage": "https://github.com/ChristianMLux/todoKata#readme"
+}
