@@ -17,4 +17,19 @@ describe("todo app", () => {
       .last()
       .should("have.text", "Test Todo");
   });
+  // filter
+  it("should add 3 todos, check 2 and filter them", () => {
+    cy.get("[data-cy=addTodoTf").type("Test Filter");
+    cy.get("[data-cy=addTodoBtn").click();
+    cy.get("[data-cy=todoCheckbox").check();
+
+    cy.get("[data-cy=radioDone").check();
+    cy.get("[data-cy=todoLi").should("not.be.hidden");
+
+    cy.get("[data-cy=radioOpen").check();
+    cy.get("[data-cy=todoLi").should("be.hidden");
+
+    cy.get("[data-cy=radioAll").check();
+    cy.get("[data-cy=todoLi").should("not.be.hidden");
+  });
 });
