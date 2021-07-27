@@ -18,9 +18,10 @@ describe("todo app", () => {
       .should("have.text", "Test Todo");
   });
   // filter
-  it("should add 3 todos, check 2 and filter them", () => {
+  it("should add todo, check it and filter it", () => {
     cy.get("[data-cy=addTodoTf").type("Test Filter");
     cy.get("[data-cy=addTodoBtn").click();
+
     cy.get("[data-cy=todoCheckbox").check();
 
     cy.get("[data-cy=radioDone").check();
